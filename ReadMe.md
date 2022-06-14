@@ -9,7 +9,7 @@ Acquisitions, Inc. requires:
    - view reviews on products
    - create, read, update, and delete their own reviews
 
-## Sprint 1 Deliverable: Product Index and Detail Views
+## Sprint 1 Deliverable: Product and Review Models
 
 ### User Stories
 **Product Index View**
@@ -19,31 +19,20 @@ Acquisitions, Inc. requires:
 
 ### Details
 
-- Create an MVC Web Application with appropriate xUnit tests.
+- Create an MVC Web Application with appropriate NUnit tests.
 - Before you add any code, create a dev branch from master (or main). For every new feature you add into your application, create a new feature branch from the dev branch. Note: Each of the steps below would make good feature branches. Keep your feature branches small and focused. They are your "safety net".
-- Create a Product Model class for the content of products, including a list of reviews. Its properties should include:
+- Create a Product model class for the content of products, including a list of reviews. Its properties should include:
    - Id (make this of type int and just use arbitrary, unique numbers for these ids)
    - Name
-   - Image (a string to an image URL)
-   - Category
+   - Image (a string or an image URL)
    - Reviews
    - And whatever other things you'd like to include. Some ideas: Date or Description
-- Create a ProductRepository class.
-   - This class should be configured so that it will be injected into ProductController.
-   - It should have a constructor that houses a List to store your products, using each product's id as the key.
-   - For this sprint, all Product data should be hard coded in the List.
-   - It should have a method, GetAll(), to get all products.
-   - It should have a method, GetById(), to find one product by id.
-- Create a ProductController class.
-   - It should have an action that gets and returns all of your products in a Products Index View.
-   - It should have an action that requires an id parameter to get and return one of your products in a Product Details View. This method should expect an "id" parameter in order to select a specific product.
-- Create some Product Views.
-   - A Product Index html view should display a list of all products on the web page.
-   - Give the user a pathway to move back and forth from All Products to one Product. For example, they can select one Product from the list to see its details. The user can click a "All Products" button to return to the list of All Products.
-   - A Product Details view will display details for one product on the web page, including its review.
-   - Add some styling to your views. Don't forget, the views you present to the user should look nice!
+- Create a Review model class for the reviews held on each product
+   - Id
+   - Reviewer
+   - Description
 
-## Sprint 2 Deliverables: Multiple Reviews for each Product
+## Sprint 2 Deliverables: Configure your EF Database
 
 ### User Stories
 
@@ -69,27 +58,28 @@ For example:
 |Arabica	| My original favorite, but stores are hard to find. |
 |Arabica	| Love the atmosphere of this coffee shop. |
 
-- Create a Review Model class for the content of reviews. Its properties should include:
-   - Id (all models need a unique Id)
-   - Content
-   - And maybe: Reviewer name, Rating, Review date
+- Create a ProductController controller.
+   - This class should be configured so that it will be injected into ProductController.
+   - Create appropriate CRUD methods
+   - It should have a List to store your products
+   - For this step, all Product data should be hard coded in the List.
+   - It should have an action that gets and returns all of your products in a Products Index View.
+   - It should have an action that requires an id parameter to get and return one of your products in a Product Details View. This method should expect an "id" parameter in order to select a specific product.
+- Create a ReviewController controller.
+   - Create appropriate Controller, and Tests to handle Review actions.
+   - Create appropriate CRUD methods
+   - Add a DbContext database of Reviews in the ReviewRepository.
+   - Add seed data to the DbContext for Reviews.
+- Create your DbContext
+   - Create Dbsets for your products and reviews
+   - Move seed data from the Repository to the DbContext by overriding the OnModelCreating() method.
 - Update Product and Review Models for Entity Framework and Code First Migrations. Update the Product class such that:
    - It is an Entity Framework entity.
    - It configures a one-to-many relationship to Review.
+      - This is done by adding the optional 'virtual' modifier for objects, and adding an oppropriate Id.
 - Update the Review class such that:
    - It is an Entity Framework entity.
    - It configures an appropriate relationship to its Product.
-- Update the ProductRepository class.
-   - Replace the Product List in your Repository with a DbContext database of Products.
-   - Move seed data from the Repository to the DbContext by overriding the OnModelCreating() method.
-- Create ReviewRepository and ReviewController classes.
-   - Create appropriate Repository, Controller, and Tests to handle Review actions.
-   - ReviewRepository should be configured so that it will be injected into the ReviewController.
-   - Add a DbContext database of Reviews in the ReviewRepository.
-   - Add seed data to the DbContext for Reviews.
-- Create some Review Views
-   - Update your Product Details view to list all Reviews for a chosen product.
-   - OR, Create a separate Reviews Index view to display all reviews for a given product.
    
 ## Sprint 3 Deliverables: Use HTML forms to allow a user to add, edit and delete Reviews!
 
@@ -108,9 +98,6 @@ For example:
 
 NOTE: You may need to modify the deliverables below based on the unique model design of your team's application. The deliverables below assume your data context consists of a one to many relationship between the Product Model class and the Review Model class.
 
-- Update ReviewController and ReviewRepository.
-   - Add CRUD (Create, Read, Update and Delete) actions to the appropriate controller and repository.
-   - Make sure the controller has both Get and Post method types for these actions.
 - Add Views and Navigation links.
    - Allow user to logically navigate to all the functions you have added to your program. 
    - NOTE: Some of these functions may be shown on the same page
@@ -120,6 +107,7 @@ NOTE: You may need to modify the deliverables below based on the unique model de
       - Ability to Add a Product Review
       - Ability to Edit a Product Review
       - Ability to Delete a Product Review
+- Create HTML forms that allow users to edit, update, and delete objects from your database
 
 ### Stretch Task Deliverables
 
@@ -132,8 +120,4 @@ NOTE: You may need to modify the deliverables below based on the unique model de
 
 ## Grading
 
-Ideally, you should write your code by writing tests first. If you do so, each public method you write should have a unit test that covers its behavior. The test classes should also be well maintained and follow the principles of clean code.
-
-75% of the public methods you add to your Product and Review classes should be covered by unit tests.
-Tests include appropriate Arrange, Act, and Assert sections.
-All tests pass.
+Ideally, you should write your code by writing tests first. If you do so, each public method you write should have a unit test that covers its behavior. The test classes should also be well maintained and follow the principles of clean code. Grading for this assignment will be handled via demonstration, and there will be no additional space for regrading. 
